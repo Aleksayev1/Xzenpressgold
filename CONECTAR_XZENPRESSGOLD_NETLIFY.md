@@ -1,7 +1,7 @@
 # 🔗 Conectar Xzenpressgold ao Netlify - Passo a Passo
 
 ## 🎯 **Repositório Confirmado:** 
-✅ https://github.com/Aleksayev1/Xzenpressgold
+✅ https://github.com/Zenpress/Xzenpressgold
 
 ## 📋 **PASSO A PASSO DETALHADO:**
 
@@ -18,7 +18,7 @@ https://app.netlify.com
 
 ### **3. Configurações EXATAS:**
 ```
-Repository: Aleksayev1/Xzenpressgold
+Repository: Zenpress/Xzenpressgold
 Branch to deploy: main
 Build command: npm run build
 Publish directory: dist
