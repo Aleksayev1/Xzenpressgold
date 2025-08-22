@@ -25,7 +25,7 @@
 ```
 1. Selecione: "GitHub"
 2. Autorize se necessário
-3. Busque por: "XZenpressbolt" ou "Aleksayev1/XZenpressbolt"
+3. Busque por: "XZenpressbolt" ou "Zenpress/XZenpressbolt"
 4. Selecione o repositório
 5. Branch: "main"
 ```
