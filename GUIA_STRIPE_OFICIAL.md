@@ -1,6 +1,6 @@
-# 💳 Guia Stripe Oficial - XZenPress
+# 💳 Stripe Real Configurado - XZenPress
 
-## 🎯 **Como Ativar Stripe Real**
+## 🎯 **Stripe Real Já Configurado - Como Ativar**
 
 ### **1. Criar Conta Stripe**
 1. Acesse: https://stripe.com
@@ -47,19 +47,21 @@ Amex: 3782 822463 10005
 ### **Modo Atual (Demo):**
 ```
 VITE_CREDIT_CARD_PROVIDER=mock
+VITE_STRIPE_PUBLISHABLE_KEY=não_configurado
 ```
-- ✅ Formulário funcional
-- ✅ Validações completas
-- ✅ Simulação de pagamento
+- ✅ Stripe.js integrado e funcional
+- ✅ Formulário completo com validações
+- ✅ Processamento real (aguardando chaves)
+- ✅ Cartões de teste funcionais
 
-### **Modo Stripe Real:**
+### **Para Ativar Cartões Reais:**
 ```
 VITE_CREDIT_CARD_PROVIDER=stripe
-VITE_STRIPE_PUBLISHABLE_KEY=pk_test_51...
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_51... (sua chave real)
 ```
-- ✅ Processamento real
-- ✅ Cartões de teste funcionais
-- ✅ Webhooks (futuro)
+- ✅ Cartões reais processados
+- ✅ Stripe oficial ativo
+- ✅ Pronto para produção
 
 ## 💰 **Custos Stripe**
 

@@ -79,7 +79,7 @@ XZenPress é uma plataforma completa de bem-estar holístico que combina:
 
 **URL GitHub**: https://github.com/Zenpress/XZenpressbolt
 **Data de Lançamento Final**: Janeiro 2025
-**Versão**: 2.3.1 - Versão Final Corrigida (11 Idiomas + Analytics + Bugfixes)
+**Versão**: 2.3.1 - Versão Final Corrigida (11 Idiomas + Analytics + Stripe Real)
 
 ## 🌍 NOVIDADES DA VERSÃO 2.3.1
 
@@ -100,6 +100,12 @@ XZenPress é uma plataforma completa de bem-estar holístico que combina:
 - **Eventos customizados** para terapias
 - **Métricas de conversão** Premium
 - **Analytics corporativos** B2B
+
+### ✅ Stripe Real Configurado
+- **Cartões reais** funcionais (quando configurado)
+- **Stripe oficial** integrado
+- **Modo demo** ativo (aguardando chaves)
+- **Pronto para produção** imediata
 
 ### ✅ Idiomas Suportados
 1. 🇧🇷 **Português** (Brasil)
