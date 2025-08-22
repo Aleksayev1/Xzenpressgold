@@ -1,6 +1,6 @@
 # 📤 Push para GitHub XZenpressbolt - Instruções Completas
 
-## 🎯 **Objetivo:** Enviar projeto XZenPress para GitHub
+## 🎯 **Objetivo:** Enviar projeto XZenPress para GitHub XZenpressbolt
 
 ### **Repositório Destino:** XZenpressbolt
 
@@ -20,7 +20,7 @@ cd xzenpress-local
 git init
 
 # Configurar remote para XZenpressbolt
-git remote add origin https://github.com/SEU_USUARIO/XZenpressbolt.git
+git remote add origin https://github.com/Aleksayev1/XZenpressbolt.git
 ```
 
 ### **2. Extrair e organizar arquivos:**
@@ -188,7 +188,7 @@ Após o push bem-sucedido, você terá:
 - ✅ **Colaboração** facilitada
 - ✅ **Deploy automático** (se configurar)
 
-**URL do repositório:** `https://github.com/SEU_USUARIO/XZenpressbolt`
+**URL do repositório:** `https://github.com/Aleksayev1/XZenpressbolt`
 
 ---
 
