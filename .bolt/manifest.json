@@ -1,0 +1,26 @@
+{
+  "name": "XZenPress - Plataforma de Bem-Estar Holística",
+  "short_name": "XZenPress",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/Logo Xzenpress oficial.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/Logo Xzenpress oficial.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "categories": [
+    "education",
+    "health"
+  ]
+}

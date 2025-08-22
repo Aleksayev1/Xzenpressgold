@@ -1,0 +1,74 @@
+{
+  "name": "xzenpress-holistic-wellness",
+  "version": "2.3.1",
+  "description": "Plataforma completa de bem-estar holístico com acupressão MTC, respiração 4-7-8, cromoterapia e sons harmonizantes",
+  "homepage": "https://xzenpress.com",
+  "private": true,
+  "keywords": [
+    "acupressão",
+    "medicina tradicional chinesa",
+    "respiração 4-7-8",
+    "cromoterapia",
+    "bem-estar",
+    "saúde natural",
+    "holístico",
+    "mindfulness"
+  ],
+  "author": {
+    "name": "XZenPress Team",
+    "email": "contato@xzenpress.com",
+    "url": "https://xzenpress.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@stripe/stripe-js": "^7.8.0",
+    "@supabase/supabase-js": "^2.53.0",
+    "lucide-react": "^0.344.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^7.4.2",
+    "@capacitor/cli": "^7.4.2",
+    "@capacitor/core": "^7.4.2",
+    "@types/archiver": "^6.0.3",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^4.7.0",
+    "archiver": "^7.0.1",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6",
+    "typescript": "~4.9.5",
+    "vite": "^5.4.2"
+  },
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "serve": "npx serve -s dist -l 3000",
+    "analyze": "npm run build && npx serve -s build",
+    "lighthouse": "lighthouse http://localhost:3000 --output html --output-path ./lighthouse-report.html"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "proxy": "http://localhost:8001"
+}

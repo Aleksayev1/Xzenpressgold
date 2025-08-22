@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- PWA Essentials -->
+    <link rel="manifest" href="/manifest.json"/>
+    <link rel="icon" href="/images/icon-192.png"/>
+    <meta name="theme-color" content="#059669" />
+    
+    <!-- Apple PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="XZenPress" />
+    <link rel="apple-touch-icon" href="/images/icon-192.png" />
+    
+    <!-- SEO -->
+    <meta name="description" content="XZenPress - Plataforma de bem-estar holística com acupressão MTC, respiração 4-7-8 e cromoterapia" />
+    <meta name="keywords" content="acupressão, medicina tradicional chinesa, respiração 4-7-8, cromoterapia, bem-estar, saúde natural" />
+    <meta name="author" content="XZenPress" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="XZenPress - Plataforma de Bem-Estar Holística" />
+    <meta property="og:description" content="Acupressão MTC, respiração 4-7-8, cromoterapia e sons harmonizantes" />
+    <meta property="og:image" content="/images/icon-512.png" />
+    <meta property="og:url" content="https://xzenpress.com" />
+    <meta property="og:type" content="website" />
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y74MT1V5JC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Y74MT1V5JC');
+    </script>
+    
+    <title>XZenPress - Acupressão e Medicina Tradicional Chinesa</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          // Verificar ambiente suportado
+          const isSecure = location.protocol === 'https:' || 
+                          location.hostname === 'localhost' || 
+                          location.hostname === '127.0.0.1';
+          
+          // Verificar se não está no WebContainer/StackBlitz
+          const isWebContainer = window.location.hostname.includes('stackblitz') ||
+                                window.location.hostname.includes('webcontainer') ||
+                                window.location.port === '5173';
+          
+          if (isSecure && !isWebContainer) {
+            navigator.serviceWorker.register('/sw.js')
+              .then((registration) => {
+                console.log('✅ XZenPress SW registrado:', registration);
+                
+                // Verificar atualizações
+                registration.addEventListener('updatefound', () => {
+                  console.log('🔄 Nova versão do SW disponível');
+                });
+              })
+              .catch((registrationError) => {
+                console.error('❌ Falha no registro do SW:', registrationError);
+              });
+          } else if (isWebContainer) {
+            console.log('ℹ️ Service Worker desabilitado no ambiente de desenvolvimento WebContainer');
+          } else {
+            console.warn('⚠️ Service Worker requer HTTPS. Ambiente atual:', location.protocol);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
