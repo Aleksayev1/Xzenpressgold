@@ -19,6 +19,7 @@ export default defineConfig({
     sourcemap: false,
     minify: 'terser',
     assetsDir: 'assets',
+    emptyOutDir: true,
     rollupOptions: {
       output: {
         manualChunks: {
@@ -31,5 +32,5 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
-  base: '/'
+  base: './'
 });

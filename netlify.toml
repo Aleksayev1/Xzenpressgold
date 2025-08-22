@@ -1,6 +1,7 @@
 [build]
   publish = "dist"
   command = "npm run build"
+  environment = { NODE_VERSION = "18" }
 
 # Force HTTPS redirects - CRITICAL for PWA Builder
 [[redirects]]
@@ -9,6 +10,12 @@
   status = 301
   force = true
 
+# Redirect para lambent-empanada
+[[redirects]]
+  from = "http://lambent-empanada-c88972.netlify.app/*"
+  to = "https://lambent-empanada-c88972.netlify.app/:splat"
+  status = 301
+  force = true
 [[redirects]]
   from = "/*"
   to = "/index.html"

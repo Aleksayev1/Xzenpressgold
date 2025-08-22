@@ -4,7 +4,6 @@ import { HomePage } from './components/HomePage';
 import { LoginPage } from './components/LoginPage';
 import { BreathingExercise } from './components/BreathingExercise';
 import { AcupressurePage } from './components/AcupressurePage';
-import { PremiumPage } from './components/PremiumPage';
 import { WhatsAppConsultationPage } from './components/WhatsAppConsultationPage';
 import { PremiumStructure } from './components/PremiumStructure';
 import { CorporatePlansPage } from './components/CorporatePlansPage';
@@ -21,6 +20,8 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home');
 
   const renderPage = () => {
+    console.log('🔍 Renderizando página:', currentPage);
+    
     switch (currentPage) {
       case 'home':
         return <HomePage onPageChange={setCurrentPage} />;
@@ -47,9 +48,12 @@ function App() {
       case 'data-deletion':
         return <DataDeletionPage onPageChange={setCurrentPage} />;
       default:
+        console.log('⚠️ Página não encontrada, redirecionando para home:', currentPage);
         return <HomePage onPageChange={setCurrentPage} />;
     }
   };
+
+  console.log('🚀 App iniciando, página atual:', currentPage);
 
   return (
     <LanguageProvider>

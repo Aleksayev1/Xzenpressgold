@@ -39,11 +39,20 @@
     <title>XZenPress - Acupressão e Medicina Tradicional Chinesa</title>
   </head>
   <body>
+    <!-- Fallback para JavaScript desabilitado -->
+    <noscript>
+      <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+        <h2>JavaScript é necessário</h2>
+        <p>Por favor, habilite o JavaScript no seu navegador para usar o XZenPress.</p>
+      </div>
+    </noscript>
+    
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     
     <!-- Service Worker Registration -->
     <script>
+      console.log('🔧 Registrando Service Worker...');
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           // Verificar ambiente suportado
@@ -75,6 +84,8 @@
             console.warn('⚠️ Service Worker requer HTTPS. Ambiente atual:', location.protocol);
           }
         });
+      } else {
+        console.warn('⚠️ Service Worker não suportado neste navegador');
       }
     </script>
   </body>
