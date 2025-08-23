@@ -37,7 +37,7 @@ interface CreditCardProvider {
 
 // Implementação para Stripe OFICIAL - ATIVADA
 export class StripeProvider implements CreditCardProvider {
-  name = 'Stripe (Oficial)';
+  name = 'Stripe Oficial - Cartões Reais';
   private stripe: any;
   private isInitialized: boolean = false;
 

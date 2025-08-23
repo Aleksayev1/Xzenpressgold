@@ -352,14 +352,17 @@ export const CreditCardForm: React.FC<CreditCardFormProps> = ({
       {/* Cartões de Teste */}
       <div className="mt-6 bg-blue-100 border border-blue-200 rounded-lg p-4">
         <h5 className="font-semibold text-blue-800 mb-2">
-          Cartões de Teste Stripe Oficial:
+          ✅ Stripe Real Ativo - Cartões de Teste:
         </h5>
         <div className="text-sm text-blue-700 space-y-1">
-          <div><strong>✅ Visa Sucesso:</strong> 4242 4242 4242 4242</div>
-          <div><strong>❌ Visa Recusado:</strong> 4000 0000 0000 0002</div>
-          <div><strong>💳 Mastercard:</strong> 5555 5555 5555 4444</div>
-          <div><strong>💎 Amex:</strong> 3782 822463 10005</div>
-          <div><strong>Qualquer data futura e CVV 123</strong></div>
+          <div><strong>🎯 Visa Sucesso:</strong> 4242 4242 4242 4242</div>
+          <div><strong>🚫 Visa Recusado:</strong> 4000 0000 0000 0002</div>
+          <div><strong>🔴 Mastercard:</strong> 5555 5555 5555 4444</div>
+          <div><strong>🟡 Amex:</strong> 3782 822463 10005</div>
+          <div><strong>📅 Data futura + CVV 123</strong></div>
+          <div className="bg-green-100 text-green-800 p-2 rounded mt-2">
+            <strong>🚀 STATUS: Stripe real funcionando!</strong>
+          </div>
         </div>
       </div>
 
