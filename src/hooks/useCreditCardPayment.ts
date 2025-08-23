@@ -34,15 +34,29 @@ export const useCreditCardPayment = () => {
       const result = await creditCardService.processPayment(cardData, paymentData);
       setPaymentResult(result);
       
-      if (result.status === 'declined') {
+      if (result.status === 'declined' || result.status === 'error') {
         setError(result.errorMessage || 'Pagamento recusado');
       }
       
       return result;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Erro no processamento do pagamento';
+      console.error('❌ Erro no hook de pagamento:', err);
       setError(errorMessage);
-      throw err;
+      
+      // Retornar resultado de erro em vez de throw
+      const errorResult = {
+        id: `error_${Date.now()}`,
+        status: 'error' as const,
+        amount: paymentData.amount,
+        currency: paymentData.currency,
+        orderId: paymentData.orderId,
+        paymentMethod: 'credit_card',
+        processedAt: new Date().toISOString(),
+        errorMessage
+      };
+      setPaymentResult(errorResult);
+      return errorResult;
     } finally {
       setLoading(false);
     }

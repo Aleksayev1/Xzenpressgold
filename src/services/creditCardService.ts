@@ -38,20 +38,29 @@ interface CreditCardProvider {
 // Implementação para Stripe OFICIAL - ATIVADA
 export class StripeProvider implements CreditCardProvider {
   name = 'Stripe Oficial - Cartões Reais';
-  private stripe: any;
+  private stripe: any = null;
   private isInitialized: boolean = false;
+  private initPromise: Promise<void> | null = null;
 
   constructor(publishableKey: string) {
-    this.initializeStripe(publishableKey);
+    this.initPromise = this.initializeStripe(publishableKey);
   }
 
   private async initializeStripe(publishableKey: string) {
     if (typeof window !== 'undefined') {
       try {
-        const { loadStripe } = await import('@stripe/stripe-js');
-        this.stripe = await loadStripe(publishableKey);
-        this.isInitialized = true;
-        console.log('🎯 Stripe OFICIAL inicializado com sucesso!');
+        // Verificar se Stripe já está carregado globalmente
+        if (window.Stripe) {
+          this.stripe = window.Stripe(publishableKey);
+          this.isInitialized = true;
+          console.log('🎯 Stripe carregado do window global');
+        } else {
+          // Carregar Stripe dinamicamente
+          const { loadStripe } = await import('@stripe/stripe-js');
+          this.stripe = await loadStripe(publishableKey);
+          this.isInitialized = true;
+          console.log('🎯 Stripe carregado dinamicamente');
+        }
       } catch (error) {
         console.error('Erro ao inicializar Stripe:', error);
         this.isInitialized = false;
@@ -63,6 +72,11 @@ export class StripeProvider implements CreditCardProvider {
     try {
       console.log('💳 Processando pagamento com Stripe oficial...');
       
+      // Aguardar inicialização se necessário
+      if (this.initPromise) {
+        await this.initPromise;
+      }
+      
       // Verificar se Stripe está inicializado
       if (!this.stripe) {
         console.warn('Stripe não inicializado, usando modo demo');
@@ -70,6 +84,8 @@ export class StripeProvider implements CreditCardProvider {
         return this.processDemoPayment(cardData, paymentData);
       }
 
+      console.log('🔄 Criando token do cartão...');
+      
       // Criar token do cartão
       const { token, error } = await this.stripe.createToken('card', {
         number: cardData.number.replace(/\s/g, ''),
@@ -114,7 +130,17 @@ export class StripeProvider implements CreditCardProvider {
       
     } catch (error) {
       console.error('Erro no pagamento Stripe:', error);
-      throw new Error('Falha no processamento do pagamento');
+      // Em vez de throw, retornar erro estruturado
+      return {
+        id: `stripe_error_${Date.now()}`,
+        status: 'error',
+        amount: paymentData.amount,
+        currency: paymentData.currency,
+        orderId: paymentData.orderId,
+        paymentMethod: 'credit_card',
+        processedAt: new Date().toISOString(),
+        errorMessage: error instanceof Error ? error.message : 'Erro desconhecido'
+      };
     }
   }
 

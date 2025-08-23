@@ -155,7 +155,18 @@ export const CreditCardForm: React.FC<CreditCardFormProps> = ({
       const cardNumber = cardData.number.replace(/\s/g, '');
       
       if (cardNumber.startsWith('4000000000000002')) {
-        throw new Error('Cartão recusado pelo banco emissor');
+        const errorResult = {
+          id: `demo_declined_${Date.now()}`,
+          status: 'declined' as const,
+          amount,
+          currency: 'BRL',
+          orderId,
+          paymentMethod: 'credit_card',
+          processedAt: new Date().toISOString(),
+          errorMessage: 'Cartão recusado pelo banco emissor'
+        };
+        onPaymentError?.('Cartão recusado pelo banco emissor');
+        return;
       }
       
       // Simular sucesso
@@ -174,10 +185,12 @@ export const CreditCardForm: React.FC<CreditCardFormProps> = ({
         processedAt: new Date().toISOString()
       };
       
+      console.log('✅ Pagamento processado com sucesso:', paymentResult);
       onPaymentSuccess?.(paymentResult);
       
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Erro no processamento';
+      const errorMessage = error instanceof Error ? error.message : 'Erro no processamento do cartão';
+      console.error('❌ Erro no processamento:', error);
       onPaymentError?.(errorMessage);
     } finally {
       setIsProcessing(false);
