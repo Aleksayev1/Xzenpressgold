@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AlertCircle, CheckCircle, CreditCard } from 'lucide-react';
 import { useCreditCardPayment } from '../hooks/useCreditCardPayment';
 import { CreditCardForm } from './ui/CreditCardForm';
@@ -26,9 +26,10 @@ export const CreditCardPaymentComponent: React.FC<CreditCardPaymentComponentProp
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   const handlePaymentSubmit = async (cardData: any) => {
+    console.log('🔄 Iniciando processamento do cartão...');
     setIsProcessingPayment(true);
+    
     try {
-      console.log('🔄 Iniciando processamento do cartão...');
       const result = await processPayment(cardData, {
         amount,
         currency: 'BRL',
@@ -38,9 +39,13 @@ export const CreditCardPaymentComponent: React.FC<CreditCardPaymentComponentProp
         customerName
       });
       
+      console.log('💳 Resultado do pagamento:', result);
+      
       if (result.status === 'approved') {
+        console.log('✅ Pagamento aprovado!');
         onPaymentSuccess?.(result);
       } else {
+        console.log('❌ Pagamento recusado:', result.errorMessage);
         onPaymentError?.(result.errorMessage || 'Pagamento não aprovado');
       }
     } catch (err) {

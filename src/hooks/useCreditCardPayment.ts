@@ -12,26 +12,42 @@ export const useCreditCardPayment = () => {
   // Verificar se Stripe está configurado
   useEffect(() => {
     const checkStripe = async () => {
-      const stripeKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
-      if (stripeKey && stripeKey.startsWith('pk_')) {
-        setIsStripeReady(true);
-        console.log('✅ Stripe configurado e pronto');
-      } else {
-        console.log('⚠️ Stripe não configurado, usando modo demo');
+      try {
+        const stripeKey = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY;
+        const provider = import.meta.env.VITE_CREDIT_CARD_PROVIDER;
+        
+        console.log('🔍 Verificando configuração Stripe:', {
+          hasKey: !!stripeKey,
+          keyPrefix: stripeKey?.substring(0, 10) + '...',
+          provider: provider
+        });
+        
+        if (stripeKey && stripeKey.startsWith('pk_') && provider === 'stripe') {
+          setIsStripeReady(true);
+          console.log('✅ Stripe configurado e pronto');
+        } else {
+          console.log('⚠️ Stripe não configurado completamente, usando modo demo');
+          console.log('Configuração atual:', { provider, hasValidKey: stripeKey?.startsWith('pk_') });
+        }
+      } catch (error) {
+        console.error('Erro ao verificar Stripe:', error);
       }
     };
     checkStripe();
   }, []);
 
   const processPayment = async (cardData: CreditCardData, paymentData: PaymentData) => {
+    console.log('💳 Iniciando processamento de pagamento...');
     setLoading(true);
     setError('');
     setPaymentResult(null);
     
     try {
-      console.log(`💳 Processando pagamento via ${creditCardService.getProviderName()}`);
+      console.log(`💳 Processando via ${creditCardService.getProviderName()}`);
       
       const result = await creditCardService.processPayment(cardData, paymentData);
+      console.log('📊 Resultado do processamento:', result);
+      
       setPaymentResult(result);
       
       if (result.status === 'declined' || result.status === 'error') {
@@ -44,10 +60,10 @@ export const useCreditCardPayment = () => {
       console.error('❌ Erro no hook de pagamento:', err);
       setError(errorMessage);
       
-      // Retornar resultado de erro em vez de throw
-      const errorResult = {
+      // Retornar resultado de erro em vez de throw para evitar página em branco
+      const errorResult: PaymentResult = {
         id: `error_${Date.now()}`,
-        status: 'error' as const,
+        status: 'error',
         amount: paymentData.amount,
         currency: paymentData.currency,
         orderId: paymentData.orderId,

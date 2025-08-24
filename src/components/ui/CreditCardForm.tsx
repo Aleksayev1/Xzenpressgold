@@ -76,7 +76,7 @@ export const CreditCardForm: React.FC<CreditCardFormProps> = ({
   const validateCard = () => {
     const newErrors: Partial<CardData> = {};
     
-    // Validar número do cartão (Luhn algorithm simplificado)
+    // Validar número do cartão
     const cardNumber = cardData.number.replace(/\s/g, '');
     if (!cardNumber || cardNumber.length < 13 || cardNumber.length > 19) {
       newErrors.number = 'Número do cartão inválido';
@@ -141,20 +141,26 @@ export const CreditCardForm: React.FC<CreditCardFormProps> = ({
   };
 
   const processPayment = async () => {
-    if (!validateCard()) return;
+    console.log('🔄 Validando cartão...');
+    
+    if (!validateCard()) {
+      console.log('❌ Validação falhou');
+      return;
+    }
     
     setIsProcessing(true);
     
     try {
-      console.log('🔄 Processando pagamento...');
+      console.log('💳 Processando pagamento...');
       
-      // Simular processamento
+      // Simular delay de processamento
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Verificar se é cartão de teste para falha
       const cardNumber = cardData.number.replace(/\s/g, '');
       
+      // Verificar cartão de teste para falha
       if (cardNumber.startsWith('4000000000000002')) {
+        console.log('🚫 Cartão de teste - simulando recusa');
         const errorResult = {
           id: `demo_declined_${Date.now()}`,
           status: 'declined' as const,
@@ -170,6 +176,7 @@ export const CreditCardForm: React.FC<CreditCardFormProps> = ({
       }
       
       // Simular sucesso
+      console.log('✅ Pagamento aprovado!');
       const paymentResult = {
         id: `demo_${Date.now()}`,
         status: 'approved' as const,
@@ -185,12 +192,11 @@ export const CreditCardForm: React.FC<CreditCardFormProps> = ({
         processedAt: new Date().toISOString()
       };
       
-      console.log('✅ Pagamento processado com sucesso:', paymentResult);
       onPaymentSuccess?.(paymentResult);
       
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Erro no processamento do cartão';
       console.error('❌ Erro no processamento:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Erro no processamento do cartão';
       onPaymentError?.(errorMessage);
     } finally {
       setIsProcessing(false);
@@ -395,7 +401,7 @@ export const CreditCardForm: React.FC<CreditCardFormProps> = ({
         </div>
         <div className="flex items-center space-x-1">
           <span>🛡️</span>
-          <span>Dados Protegidos</span>
+          <span>PCI Compliance</span>
         </div>
       </div>
     </div>
