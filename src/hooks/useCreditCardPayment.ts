@@ -60,7 +60,7 @@ export const useCreditCardPayment = () => {
       console.error('❌ Erro no hook de pagamento:', err);
       setError(errorMessage);
       
-      // Retornar resultado de erro em vez de throw para evitar página em branco
+      // CRÍTICO: NUNCA fazer throw - sempre retornar resultado estruturado
       const errorResult: PaymentResult = {
         id: `error_${Date.now()}`,
         status: 'error',
@@ -71,6 +71,7 @@ export const useCreditCardPayment = () => {
         processedAt: new Date().toISOString(),
         errorMessage
       };
+      console.log('📊 Hook retornando erro estruturado:', errorResult);
       setPaymentResult(errorResult);
       return errorResult;
     } finally {

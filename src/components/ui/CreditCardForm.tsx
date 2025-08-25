@@ -161,7 +161,7 @@ export const CreditCardForm: React.FC<CreditCardFormProps> = ({
       // Verificar cartão de teste para falha
       if (cardNumber.startsWith('4000000000000002')) {
         console.log('🚫 Cartão de teste - simulando recusa');
-        const errorResult = {
+        const declinedResult = {
           id: `demo_declined_${Date.now()}`,
           status: 'declined' as const,
           amount,
@@ -171,6 +171,7 @@ export const CreditCardForm: React.FC<CreditCardFormProps> = ({
           processedAt: new Date().toISOString(),
           errorMessage: 'Cartão recusado pelo banco emissor'
         };
+        console.log('📊 Retornando cartão recusado:', declinedResult);
         onPaymentError?.('Cartão recusado pelo banco emissor');
         return;
       }
@@ -197,6 +198,7 @@ export const CreditCardForm: React.FC<CreditCardFormProps> = ({
     } catch (error) {
       console.error('❌ Erro no processamento:', error);
       const errorMessage = error instanceof Error ? error.message : 'Erro no processamento do cartão';
+      console.log('📊 Chamando onPaymentError:', errorMessage);
       onPaymentError?.(errorMessage);
     } finally {
       setIsProcessing(false);

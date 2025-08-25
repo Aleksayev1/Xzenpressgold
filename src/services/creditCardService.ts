@@ -93,6 +93,7 @@ export class StripeProvider implements CreditCardProvider {
   async processPayment(cardData: CreditCardData, paymentData: PaymentData): Promise<PaymentResult> {
     console.log('💳 Processando pagamento com Stripe...');
     
+    // NUNCA fazer throw - sempre retornar resultado estruturado
     try {
       // Aguardar inicialização se necessário
       if (!this.isInitialized) {
@@ -103,6 +104,7 @@ export class StripeProvider implements CreditCardProvider {
       // Se ainda não conseguiu inicializar, usar modo demo
       if (!this.stripe) {
         console.warn('⚠️ Stripe não disponível, usando modo demo');
+        // NUNCA fazer throw aqui - retornar demo payment
         return this.processDemoPayment(cardData, paymentData);
       }
 
@@ -119,7 +121,8 @@ export class StripeProvider implements CreditCardProvider {
 
       if (tokenResult.error) {
         console.error('❌ Erro Stripe:', tokenResult.error);
-        return {
+        // RETORNAR erro estruturado em vez de throw
+        const errorResult: PaymentResult = {
           id: `stripe_error_${Date.now()}`,
           status: 'declined',
           amount: paymentData.amount,
@@ -129,6 +132,8 @@ export class StripeProvider implements CreditCardProvider {
           processedAt: new Date().toISOString(),
           errorMessage: tokenResult.error.message
         };
+        console.log('📊 Retornando erro estruturado:', errorResult);
+        return errorResult;
       }
 
       // Sucesso - token criado
@@ -152,8 +157,8 @@ export class StripeProvider implements CreditCardProvider {
     } catch (error) {
       console.error('❌ Erro no pagamento Stripe:', error);
       
-      // NUNCA fazer throw - sempre retornar resultado estruturado
-      return {
+      // CRÍTICO: NUNCA fazer throw - sempre retornar resultado estruturado
+      const errorResult: PaymentResult = {
         id: `stripe_error_${Date.now()}`,
         status: 'error',
         amount: paymentData.amount,
@@ -163,6 +168,8 @@ export class StripeProvider implements CreditCardProvider {
         processedAt: new Date().toISOString(),
         errorMessage: error instanceof Error ? error.message : 'Erro desconhecido no Stripe'
       };
+      console.log('📊 Retornando erro de catch:', errorResult);
+      return errorResult;
     }
   }
 
