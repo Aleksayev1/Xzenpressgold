@@ -194,8 +194,8 @@ export const BreathingExercise: React.FC<BreathingExerciseProps> = ({ onPageChan
       
       {/* Life Tips Banner - Prominent Display */}
       {showLifeTipsBanner && (
-        <div className="fixed top-20 right-4 z-40 max-w-xs">
-          <div className="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 rounded-2xl shadow-2xl p-4 text-white relative overflow-hidden border-2 border-red-300">
+        <div className="fixed top-20 right-4 z-40 max-w-sm">
+          <div className="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 rounded-2xl shadow-2xl p-6 text-white relative overflow-hidden border-2 border-red-300 animate-pulse">
             {/* Animated background elements */}
             <div className="absolute top-0 left-0 w-full h-full opacity-20">
               <div className="absolute top-2 left-2 w-6 h-6 bg-white rounded-full animate-pulse"></div>
@@ -213,44 +213,44 @@ export const BreathingExercise: React.FC<BreathingExerciseProps> = ({ onPageChan
             
             <div className="relative z-10 text-center">
               <div className="flex justify-center mb-3">
-                <div className="p-2 bg-white bg-opacity-20 rounded-full backdrop-blur-sm animate-bounce shadow-lg">
-                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <div className="p-3 bg-white bg-opacity-20 rounded-full backdrop-blur-sm animate-bounce shadow-lg">
+                  <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                   </svg>
                 </div>
               </div>
               
-              <h3 className="text-sm font-bold mb-2 animate-pulse">
+              <h3 className="text-lg font-bold mb-3 animate-pulse">
                 🚨 RECURSOS PREMIUM
               </h3>
               
-              <p className="text-yellow-100 text-xs mb-2 font-semibold">
+              <p className="text-yellow-100 text-sm mb-4 font-semibold">
                 Técnicas que podem salvar sua vida
               </p>
               
-              <div className="grid grid-cols-3 gap-1 mb-2 text-xs">
-                <div className="bg-white bg-opacity-20 rounded p-1 backdrop-blur-sm">
-                  <div>😴</div>
-                  <div className="font-bold text-xs">SONO</div>
+              <div className="grid grid-cols-3 gap-2 mb-4 text-sm">
+                <div className="bg-white bg-opacity-20 rounded-lg p-2 backdrop-blur-sm">
+                  <div className="text-lg mb-1">😴</div>
+                  <div className="font-bold">SONO</div>
                 </div>
-                <div className="bg-white bg-opacity-20 rounded p-1 backdrop-blur-sm">
-                  <div>🧘</div>
-                  <div className="font-bold text-xs">CALMA</div>
+                <div className="bg-white bg-opacity-20 rounded-lg p-2 backdrop-blur-sm">
+                  <div className="text-lg mb-1">🧘</div>
+                  <div className="font-bold">CALMA</div>
                 </div>
-                <div className="bg-white bg-opacity-20 rounded p-1 backdrop-blur-sm">
-                  <div>⚡</div>
-                  <div className="font-bold text-xs">ENERGIA</div>
+                <div className="bg-white bg-opacity-20 rounded-lg p-2 backdrop-blur-sm">
+                  <div className="text-lg mb-1">⚡</div>
+                  <div className="font-bold">ENERGIA</div>
                 </div>
               </div>
               
               <button
                 onClick={() => onPageChange && onPageChange('premium')}
-                className="w-full bg-white text-red-600 px-3 py-2 rounded-lg text-xs font-bold hover:bg-gray-100 transition-all animate-pulse shadow-lg"
+                className="w-full bg-white text-red-600 px-4 py-3 rounded-lg text-sm font-bold hover:bg-gray-100 transition-all animate-pulse shadow-lg"
               >
                 🆘 CLIQUE JÁ
               </button>
               
-              <div className="mt-1 text-xs text-yellow-100 font-medium">
+              <div className="mt-2 text-xs text-yellow-100 font-medium">
                 ⚡ 9 pontos gratuitos
               </div>
             </div>
