@@ -21,11 +21,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onPageChange }) => {
       icon: <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
       </svg>,
-      icon: <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
-        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M8 5v14l11-7z"/>
-        </svg>
-      </div>,
       title: t('home.feature.breathing.title'),
       description: t('home.feature.breathing.desc'),
       action: () => onPageChange('acupressure')
@@ -39,10 +34,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onPageChange }) => {
       icon: <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
       </svg>,
-      title: '🌟 DICAS PARA UMA VIDA MELHOR',
+      title: '🚨 RECURSOS PREMIUM EXCLUSIVOS',
       description: (
         <div className="space-y-2">
-          <div className="font-bold text-yellow-100">Técnicas que podem salvar sua vida:</div>
+          <div className="font-bold text-yellow-100">Técnicas que podem salvar sua vida</div>
           <div className="grid grid-cols-3 gap-1 text-xs">
             <div className="bg-white bg-opacity-20 rounded p-1 backdrop-blur-sm">
               <div>😴</div>
@@ -57,8 +52,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onPageChange }) => {
               <div className="font-bold">ENERGIA</div>
             </div>
           </div>
-          <div className="bg-white text-blue-600 px-3 py-1 rounded-full text-xs font-bold animate-pulse">
-            🔒 PREMIUM EXCLUSIVO
+          <div className="bg-white text-red-600 px-3 py-1 rounded-full text-xs font-bold animate-pulse">
+            🆘 CLIQUE JÁ - ACESSO GRATUITO
+          </div>
+          <div className="text-xs text-yellow-100 font-medium">
+            ⚡ 9 pontos gratuitos • Sem login necessário
           </div>
         </div>
       ),

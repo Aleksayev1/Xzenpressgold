@@ -531,10 +531,13 @@ export const PremiumStructure: React.FC<PremiumStructureProps> = ({ onPageChange
             {paymentMethod === 'credit' && pixPaymentData && (
               <div className="bg-blue-50 rounded-xl p-6 mb-6">
                 <h4 className="font-semibold text-blue-800 mb-4">Pagamento com Cartão</h4>
-                <div className="bg-white rounded-lg p-3 mb-4 border border-green-200">
-                  <div className="flex items-center space-x-2 text-green-700">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm font-medium">✅ Stripe Real Ativo - Cartões Funcionais</span>
+                <div className="bg-green-50 rounded-lg p-3 mb-4 border border-green-200">
+                  <div className="flex items-center space-x-2 text-green-800">
+                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-sm font-bold">🚀 Stripe Real Ativo - Cartões Funcionais</span>
+                  </div>
+                  <div className="text-xs text-green-700 mt-1">
+                    Status: Processamento real de cartões habilitado
                   </div>
                 </div>
                 <CreditCardPaymentComponent
