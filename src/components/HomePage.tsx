@@ -76,39 +76,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onPageChange }) => {
       isPremium: true
     },
     {
-      icon: <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center animate-pulse">
-        <span className="text-white text-lg">🚨</span>
-      </div>,
-      title: '🚨 RECURSOS PREMIUM EXCLUSIVOS',
-      description: (
-        <div className="space-y-2">
-          <div className="font-bold text-yellow-100 animate-pulse">TÉCNICAS QUE PODEM SALVAR SUA VIDA</div>
-          <div className="grid grid-cols-3 gap-1 text-xs">
-            <div className="bg-white bg-opacity-30 rounded p-1 backdrop-blur-sm">
-              <div className="text-lg">😴</div>
-              <div className="font-bold">SONO</div>
-            </div>
-            <div className="bg-white bg-opacity-30 rounded p-1 backdrop-blur-sm">
-              <div className="text-lg">🧘</div>
-              <div className="font-bold">CALMA</div>
-            </div>
-            <div className="bg-white bg-opacity-30 rounded p-1 backdrop-blur-sm">
-              <div className="text-lg">⚡</div>
-              <div className="font-bold">ENERGIA</div>
-            </div>
-          </div>
-          <div className="bg-white text-red-600 px-4 py-2 rounded-full text-sm font-bold hover:bg-gray-100 transition-all animate-pulse shadow-lg">
-            🆘 CLIQUE JÁ - ACESSO GRATUITO
-          </div>
-          <div className="text-xs text-yellow-100 font-medium">
-            ⚡ 9 pontos gratuitos • Sem login necessário
-          </div>
-        </div>
-      ),
-      isLifeSaving: true,
-      action: () => onPageChange('acupressure')
-    },
-    {
       icon: <Star className="w-8 h-8 text-yellow-500" />,
       title: t('home.feature.consultation.title'),
       description: (
