@@ -220,7 +220,7 @@ export class StripeProvider implements CreditCardProvider {
 
 // Implementação Mock para desenvolvimento
 class MockCreditCardProvider implements CreditCardProvider {
-  name = 'Processamento Seguro (Demonstração)';
+  name = 'Processamento Seguro';
 
   async processPayment(cardData: CreditCardData, paymentData: PaymentData): Promise<PaymentResult> {
     console.log('🎭 Processando pagamento mock...', {
