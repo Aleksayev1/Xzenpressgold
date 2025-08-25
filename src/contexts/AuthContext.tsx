@@ -96,6 +96,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const upgradeToPremium = () => {
     console.log('⬆️ Fazendo upgrade para Premium...');
+    console.log('🔒 ATENÇÃO: Upgrade só deve acontecer APÓS pagamento confirmado!');
     if (user) {
       const updatedUser = { ...user, isPremium: true };
       console.log('👑 Usuário atualizado:', updatedUser);

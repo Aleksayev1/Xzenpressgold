@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Crown, Star, CheckCircle, ArrowRight, CreditCard, Smartphone } from 'lucide-react';
+import { Crown, Star, CheckCircle, ArrowRight, CreditCard, Smartphone, AlertCircle, Clock } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { PixPaymentComponent } from './PixPaymentComponent';
+import { CreditCardPaymentComponent } from './CreditCardPaymentComponent';
 
 interface PremiumStructureProps {
   onPageChange: (page: string) => void;
@@ -11,6 +13,8 @@ export const PremiumStructure: React.FC<PremiumStructureProps> = ({ onPageChange
   const [selectedPlan, setSelectedPlan] = useState<string>('');
   const [showPayment, setShowPayment] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'pix' | 'credit'>('pix');
+  const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'success' | 'error'>('idle');
+  const [paymentError, setPaymentError] = useState('');
 
   // Se o usuário já é premium, mostrar dashboard premium
   if (user?.isPremium) {
@@ -121,23 +125,32 @@ export const PremiumStructure: React.FC<PremiumStructureProps> = ({ onPageChange
   const handlePlanSelect = (planId: string) => {
     setSelectedPlan(planId);
     setShowPayment(true);
+    setPaymentStatus('idle');
+    setPaymentError('');
   };
 
-  // PAGAMENTO SIMPLIFICADO - SEM TELA EM BRANCO
-  const handlePayment = () => {
-    console.log('💳 Processando pagamento simplificado...');
+  // FUNÇÃO CORRIGIDA - SÓ ATIVA PREMIUM APÓS PAGAMENTO CONFIRMADO
+  const handlePaymentSuccess = (paymentData: any) => {
+    console.log('✅ Pagamento confirmado:', paymentData);
+    setPaymentStatus('success');
     
-    if (paymentMethod === 'pix') {
-      alert('PIX: Pagamento simulado com sucesso! Bem-vindo ao Premium!');
-    } else {
-      alert('CARTÃO: Pagamento simulado com sucesso! Bem-vindo ao Premium!');
-    }
-    
-    upgradeToPremium();
-    setShowPayment(false);
+    // AGUARDAR 2 SEGUNDOS ANTES DE ATIVAR PREMIUM
+    setTimeout(() => {
+      upgradeToPremium();
+      setShowPayment(false);
+    }, 2000);
+  };
+
+  const handlePaymentError = (error: string) => {
+    console.log('❌ Erro no pagamento:', error);
+    setPaymentStatus('error');
+    setPaymentError(error);
   };
 
   if (showPayment) {
+    const selectedPlanData = pricingPlans.find(p => p.id === selectedPlan);
+    const planAmount = selectedPlan === 'monthly' ? 29.90 : 297.00;
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 pt-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -148,130 +161,124 @@ export const PremiumStructure: React.FC<PremiumStructureProps> = ({ onPageChange
                 Finalizar Pagamento Premium
               </h1>
               <p className="text-gray-600">
-                {pricingPlans.find(p => p.id === selectedPlan)?.name} - {pricingPlans.find(p => p.id === selectedPlan)?.price}
+                {selectedPlanData?.name} - {selectedPlanData?.price}
               </p>
             </div>
 
-            {/* MÉTODO DE PAGAMENTO SIMPLIFICADO */}
-            <div className="mb-8">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">
-                Escolha o método de pagamento:
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button
-                  onClick={() => setPaymentMethod('pix')}
-                  className={`p-6 rounded-xl border-2 transition-all ${
-                    paymentMethod === 'pix' 
-                      ? 'border-green-500 bg-green-50' 
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Smartphone className="w-8 h-8 text-green-600" />
-                    </div>
-                    <div className="font-bold text-gray-800 text-lg">PIX</div>
-                    <div className="text-sm text-gray-600">Instantâneo e seguro</div>
-                    <div className="text-xs text-green-600 font-semibold mt-2">
-                      ✅ PIX REAL ATIVO
-                    </div>
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => setPaymentMethod('credit')}
-                  className={`p-6 rounded-xl border-2 transition-all ${
-                    paymentMethod === 'credit' 
-                      ? 'border-blue-500 bg-blue-50' 
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <CreditCard className="w-8 h-8 text-blue-600" />
-                    </div>
-                    <div className="font-bold text-gray-800 text-lg">Cartão</div>
-                    <div className="text-sm text-gray-600">Visa, Master, Amex</div>
-                    <div className="text-xs text-blue-600 font-semibold mt-2">
-                      ✅ STRIPE REAL ATIVO
-                    </div>
-                  </div>
-                </button>
-              </div>
-            </div>
-
-            {/* FORMULÁRIO SIMPLIFICADO */}
-            {paymentMethod === 'credit' && (
-              <div className="bg-blue-50 rounded-xl p-6 mb-6">
-                <h4 className="font-semibold text-blue-800 mb-4">💳 Dados do Cartão</h4>
-                
-                <div className="space-y-4">
-                  <input
-                    type="text"
-                    placeholder="1234 5678 9012 3456"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                  />
-                  <input
-                    type="text"
-                    placeholder="NOME NO CARTÃO"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                  />
-                  <div className="grid grid-cols-2 gap-4">
-                    <input
-                      type="text"
-                      placeholder="MM/AA"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                    />
-                    <input
-                      type="text"
-                      placeholder="CVV"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                    />
+            {/* Status de Pagamento */}
+            {paymentStatus === 'success' && (
+              <div className="bg-green-50 border border-green-200 rounded-xl p-6 mb-6">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="w-8 h-8 text-green-600" />
+                  <div>
+                    <h3 className="text-green-800 font-bold text-lg">Pagamento Confirmado!</h3>
+                    <p className="text-green-700">Ativando acesso Premium...</p>
                   </div>
                 </div>
+                <div className="mt-4 flex items-center justify-center">
+                  <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin"></div>
+                  <span className="ml-2 text-green-700">Processando upgrade...</span>
+                </div>
+              </div>
+            )}
 
-                <div className="mt-4 bg-green-100 border border-green-300 rounded-lg p-3">
-                  <div className="text-green-800 text-sm">
-                    <div className="font-bold mb-2">🚀 STRIPE REAL - Cartões de Teste:</div>
-                    <div>✅ <strong>Sucesso:</strong> 4242 4242 4242 4242</div>
-                    <div>❌ <strong>Recusado:</strong> 4000 0000 0000 0002</div>
-                    <div>📅 <strong>Data:</strong> Qualquer futura (12/25)</div>
-                    <div>🔒 <strong>CVV:</strong> 123</div>
+            {paymentStatus === 'error' && (
+              <div className="bg-red-50 border border-red-200 rounded-xl p-6 mb-6">
+                <div className="flex items-center space-x-3">
+                  <AlertCircle className="w-8 h-8 text-red-600" />
+                  <div>
+                    <h3 className="text-red-800 font-bold text-lg">Erro no Pagamento</h3>
+                    <p className="text-red-700">{paymentError}</p>
                   </div>
                 </div>
               </div>
             )}
 
-            {paymentMethod === 'pix' && (
-              <div className="bg-green-50 rounded-xl p-6 mb-6">
-                <h4 className="font-semibold text-green-800 mb-4">📱 Pagamento PIX</h4>
-                <div className="text-center">
-                  <div className="bg-white rounded-lg p-4 mb-4">
-                    <div className="text-6xl mb-4">📱</div>
-                    <div className="font-mono text-sm text-gray-700 mb-2">
-                      aleksayevacupress@gmail.com
-                    </div>
-                    <div className="text-green-600 font-semibold">✅ PIX REAL ATIVO</div>
+            {/* MÉTODO DE PAGAMENTO */}
+            {paymentStatus === 'idle' && (
+              <>
+                <div className="mb-8">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                    Escolha o método de pagamento:
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button
+                      onClick={() => setPaymentMethod('pix')}
+                      className={`p-6 rounded-xl border-2 transition-all ${
+                        paymentMethod === 'pix' 
+                          ? 'border-green-500 bg-green-50' 
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <div className="text-center">
+                        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Smartphone className="w-8 h-8 text-green-600" />
+                        </div>
+                        <div className="font-bold text-gray-800 text-lg">PIX</div>
+                        <div className="text-sm text-gray-600">Instantâneo e seguro</div>
+                        <div className="text-xs text-green-600 font-semibold mt-2">
+                          ✅ PIX REAL ATIVO
+                        </div>
+                      </div>
+                    </button>
+
+                    <button
+                      onClick={() => setPaymentMethod('credit')}
+                      className={`p-6 rounded-xl border-2 transition-all ${
+                        paymentMethod === 'credit' 
+                          ? 'border-blue-500 bg-blue-50' 
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <div className="text-center">
+                        <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <CreditCard className="w-8 h-8 text-blue-600" />
+                        </div>
+                        <div className="font-bold text-gray-800 text-lg">Cartão</div>
+                        <div className="text-sm text-gray-600">Visa, Master, Amex</div>
+                        <div className="text-xs text-blue-600 font-semibold mt-2">
+                          ✅ STRIPE REAL ATIVO
+                        </div>
+                      </div>
+                    </button>
                   </div>
                 </div>
-              </div>
-            )}
 
-            {/* BOTÃO SIMPLES QUE SEMPRE FUNCIONA */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                onClick={() => setShowPayment(false)}
-                className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
-              >
-                Voltar
-              </button>
-              <button
-                onClick={handlePayment}
-                className="flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl hover:from-green-600 hover:to-green-700 transition-all font-semibold"
-              >
-                ✅ Confirmar Pagamento {paymentMethod === 'pix' ? 'PIX' : 'Cartão'}
-              </button>
-            </div>
+                {/* COMPONENTE DE PAGAMENTO */}
+                <div className="mb-6">
+                  {paymentMethod === 'pix' ? (
+                    <PixPaymentComponent
+                      amount={planAmount}
+                      description={selectedPlanData?.name || 'XZenPress Premium'}
+                      orderId={`premium_${selectedPlan}_${Date.now()}`}
+                      customerEmail={user?.email}
+                      customerName={user?.name}
+                      onPaymentSuccess={handlePaymentSuccess}
+                      onPaymentError={handlePaymentError}
+                    />
+                  ) : (
+                    <CreditCardPaymentComponent
+                      amount={planAmount}
+                      description={selectedPlanData?.name || 'XZenPress Premium'}
+                      orderId={`premium_${selectedPlan}_${Date.now()}`}
+                      customerEmail={user?.email}
+                      customerName={user?.name}
+                      onPaymentSuccess={handlePaymentSuccess}
+                      onPaymentError={handlePaymentError}
+                    />
+                  )}
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button
+                    onClick={() => setShowPayment(false)}
+                    className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+                  >
+                    Voltar
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -402,6 +409,20 @@ export const PremiumStructure: React.FC<PremiumStructureProps> = ({ onPageChange
                 </button>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Aviso Importante */}
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
+          <div className="flex items-start space-x-3">
+            <AlertCircle className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
+            <div>
+              <h3 className="font-bold text-blue-800 mb-2">💳 Pagamento Real Necessário</h3>
+              <p className="text-blue-700 text-sm">
+                Para acessar os recursos Premium, é necessário completar o pagamento via PIX ou cartão de crédito. 
+                O acesso só será liberado após confirmação do pagamento.
+              </p>
+            </div>
           </div>
         </div>
       </div>
