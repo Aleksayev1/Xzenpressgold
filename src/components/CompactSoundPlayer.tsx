@@ -177,7 +177,7 @@ export const CompactSoundPlayer: React.FC<CompactSoundPlayerProps> = ({
                     onChange={(e) => setVolume(parseFloat(e.target.value))}
                     className="flex-1 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                     style={{
-                      background: `linear-gradient(to right, ${currentColor} 0%, ${currentColor} ${volume * 100}%, #E5E7EB ${volume * 100}%, #E5E7EB 100%)`
+                      background: `linear-gradient(to right, ${currentColor} 0%, ${currentColor} ${volume * 100}%, #D1D5DB ${volume * 100}%, #D1D5DB 100%)`
                     }}
                   />
                   <Volume2 className="w-3 h-3 text-gray-500" />

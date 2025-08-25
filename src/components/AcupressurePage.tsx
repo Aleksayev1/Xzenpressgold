@@ -20,7 +20,7 @@ export const AcupressurePage: React.FC<AcupressurePageProps> = ({ onPageChange }
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
   const [totalSessionTime, setTotalSessionTime] = useState(0);
-  const [currentColor, setCurrentColor] = useState('#3B82F6');
+  const [currentColor, setCurrentColor] = useState('#1D4ED8');
   const [breathingPhase, setBreathingPhase] = useState<'inhale' | 'hold' | 'exhale'>('inhale');
   const [breathingTimeLeft, setBreathingTimeLeft] = useState(4);
   const [usedPoints, setUsedPoints] = useState<string[]>([]);
@@ -43,9 +43,9 @@ export const AcupressurePage: React.FC<AcupressurePageProps> = ({ onPageChange }
   ];
 
   const breathingPhases = {
-    inhale: { duration: 4, next: 'hold' as const, color: '#3B82F6', label: 'Inspire' },
-    hold: { duration: 7, next: 'exhale' as const, color: '#10B981', label: 'Segure' },
-    exhale: { duration: 8, next: 'inhale' as const, color: '#8B5CF6', label: 'Expire' },
+    inhale: { duration: 4, next: 'hold' as const, color: '#1D4ED8', label: 'Inspire' },
+    hold: { duration: 7, next: 'exhale' as const, color: '#059669', label: 'Segure' },
+    exhale: { duration: 8, next: 'inhale' as const, color: '#7C3AED', label: 'Expire' },
   };
 
   const filteredPoints = getPointsByCategory(selectedCategory, user?.isPremium || false);
@@ -177,7 +177,7 @@ export const AcupressurePage: React.FC<AcupressurePageProps> = ({ onPageChange }
     setTotalSessionTime(0);
     setBreathingPhase('inhale');
     setBreathingTimeLeft(4);
-    setCurrentColor('#3B82F6');
+    setCurrentColor('#1D4ED8');
     sessionStartTime.current = Date.now();
     
     trackAcupressureSession(pointId, point.duration || 120, true);
@@ -215,7 +215,7 @@ export const AcupressurePage: React.FC<AcupressurePageProps> = ({ onPageChange }
     setTotalSessionTime(0);
     setBreathingPhase('inhale');
     setBreathingTimeLeft(4);
-    setCurrentColor('#3B82F6');
+    setCurrentColor('#1D4ED8');
     sessionStartTime.current = null;
     
     if (timerRef.current) {
@@ -430,12 +430,12 @@ export const AcupressurePage: React.FC<AcupressurePageProps> = ({ onPageChange }
                       : 'border-2'
                   }`}
                   style={breathingPhase === 'inhale' ? {
-                    backgroundColor: '#3B82F6',
-                    borderColor: '#3B82F6'
+                    backgroundColor: '#1D4ED8',
+                    borderColor: '#1D4ED8'
                   } : {
-                    backgroundColor: '#3B82F650',
-                    borderColor: '#3B82F6',
-                    color: '#1E40AF'
+                    backgroundColor: '#1D4ED850',
+                    borderColor: '#1D4ED8',
+                    color: '#1E3A8A'
                   }}
                 >
                   <div className="text-xl font-bold mb-1">4s</div>
@@ -449,11 +449,11 @@ export const AcupressurePage: React.FC<AcupressurePageProps> = ({ onPageChange }
                       : 'border-2'
                   }`}
                   style={breathingPhase === 'hold' ? {
-                    backgroundColor: '#10B981',
-                    borderColor: '#10B981'
+                    backgroundColor: '#059669',
+                    borderColor: '#059669'
                   } : {
-                    backgroundColor: '#10B98150',
-                    borderColor: '#10B981',
+                    backgroundColor: '#05966950',
+                    borderColor: '#059669',
                     color: '#047857'
                   }}
                 >
@@ -468,12 +468,12 @@ export const AcupressurePage: React.FC<AcupressurePageProps> = ({ onPageChange }
                       : 'border-2'
                   }`}
                   style={breathingPhase === 'exhale' ? {
-                    backgroundColor: '#8B5CF6',
-                    borderColor: '#8B5CF6'
+                    backgroundColor: '#7C3AED',
+                    borderColor: '#7C3AED'
                   } : {
-                    backgroundColor: '#8B5CF650',
-                    borderColor: '#8B5CF6',
-                    color: '#7C3AED'
+                    backgroundColor: '#7C3AED50',
+                    borderColor: '#7C3AED',
+                    color: '#6D28D9'
                   }}
                 >
                   <div className="text-xl font-bold mb-1">8s</div>
